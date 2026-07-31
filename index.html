@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ثبت نامه اداری - سیستم دبیرخانه</title>
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="components/style.css">
+</head>
+<body>
+
+  <div class="page">
+    <div class="page-header">
+      <h2>ثبت نامه جدید</h2>
+      <p>فرم ورود اطلاعات نامه‌های اداری در سیستم دبیرخانه</p>
+    </div>
+
+    <form action="#" method="POST" enctype="multipart/form-data" id="letterForm" novalidate class="letter-form">
+
+      <div id="formStatus" class="status-banner"></div>
+
+      <div class="columns">
+
+        <!-- ستون ۱: اطلاعات پایه -->
+        <section class="col col-basic">
+          <div class="section-title">اطلاعات پایه</div>
+
+          <div class="form-group" id="group-letter_type">
+            <label>نوع نامه <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="letter_type" value="incoming" checked> وارده (از بیرون)</label>
+              <label class="radio-label"><input type="radio" name="letter_type" value="outgoing"> صادره (به بیرون)</label>
+              <label class="radio-label"><input type="radio" name="letter_type" value="internal"> داخلی</label>
+            </div>
+            <span class="error-text">لطفاً نوع نامه را انتخاب کنید.</span>
+          </div>
+
+          <div class="form-group">
+            <label>شماره ثبت سیستم</label>
+            <input type="text" id="registration_number" value="پس از ثبت نامه تولید می‌شود" readonly>
+          </div>
+
+          <div class="form-group" id="group-letter_date">
+            <label for="letter_date">تاریخ نامه <span class="required">*</span></label>
+            <input type="date" id="letter_date" required>
+            <span class="error-text">تاریخ نامه الزامی است.</span>
+          </div>
+        </section>
+
+        <!-- ستون ۲: مشخصات طرفین و موضوع -->
+        <section class="col col-parties">
+          <div class="section-title">مشخصات طرفین و محتوا</div>
+
+          <div class="form-group" id="group-sender">
+            <label for="sender">فرستنده <span class="required">*</span></label>
+            <input type="text" id="sender" placeholder="نام شخص یا سازمان" required>
+            <span class="error-text">فرستنده الزامی است.</span>
+          </div>
+
+          <div class="form-group" id="group-receiver">
+            <label for="receiver">گیرنده <span class="required">*</span></label>
+            <input type="text" id="receiver" placeholder="نام شخص یا واحد دریافت‌کننده" required>
+            <span class="error-text">گیرنده الزامی است.</span>
+          </div>
+
+          <div class="form-group" id="group-subject">
+            <label for="subject">موضوع / عنوان نامه <span class="required">*</span></label>
+            <input type="text" id="subject" placeholder="خلاصه‌ای کوتاه و شفاف از موضوع نامه" required>
+            <span class="error-text">موضوع نامه الزامی است.</span>
+          </div>
+        </section>
+
+        <!-- ستون ۳: اسناد و پیوست‌ها -->
+        <section class="col col-attachments">
+          <div class="section-title">پیوست‌ها و ارجاع</div>
+
+          <div class="form-group" id="group-attachments_count">
+            <label for="attachments_count">تعداد برگ / پیوست</label>
+            <input type="number" id="attachments_count" min="0" value="0">
+          </div>
+
+          <div class="form-group fill" id="group-file_attachment">
+            <label>آپلود اسکن نامه (PDF / تصویر)</label>
+            <div class="file-upload-wrapper">
+              <input type="file" id="file_attachment" style="display: none;" accept=".pdf,.jpg,.jpeg,.png">
+              <label for="file_attachment" style="cursor: pointer; margin: 0; color: var(--primary-color);" id="file_attachment_label">
+                📁 کلیک کنید یا فایل اسکن‌شده را اینجا رها کنید
+              </label>
+            </div>
+            <span class="error-text">حجم فایل نباید بیشتر از ۱۰ مگابایت باشد.</span>
+          </div>
+
+          <div class="form-group fill">
+            <label for="notes">توضیحات / پاراف اولیه</label>
+            <textarea id="notes" placeholder="یادداشت کوتاه اپراتور یا دستور اولیه..."></textarea>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- دکمه‌ها -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="cancelBtn">انصراف</button>
+        <button type="submit" class="btn btn-primary" id="submitBtn">ثبت نامه در دبیرخانه</button>
+      </div>
+
+    </form>
+  </div>
+
+  <script src="components/app.js"></script>
+
+</body>
+</html>

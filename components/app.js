@@ -1,214 +1,245 @@
+document.addEventListener("DOMContentLoaded", function () {
+  // ۱. راه‌اندازی دیت‌پیکر
+  jalaliDatepicker.startWatch();
 
-    const API_URL = 'http://localhost:4460/api/letters';
-    function gregorianToJalali(gy, gm, gd) {
-      const gDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      const gy2 = (gm > 2) ? (gy + 1) : gy;
+  // ۲. دریافت اینپوت
+  var inputEl = document.getElementById("letter_date");
 
-      let days = 355666 + (365 * gy)
-        + Math.floor((gy2 + 3) / 4)
-        - Math.floor((gy2 + 99) / 100)
-        + Math.floor((gy2 + 399) / 400)
-        + gd
-        + gDaysInMonth.slice(0, gm - 1).reduce((a, b) => a + b, 0);
+  // ۳. هر زمان تاریخی انتخاب شد، اسلش‌ها را به خط تیره تبدیل کن و صفرهای ماه/روز را درست کن
+  inputEl.addEventListener("change", function () {
+    if (this.value) {
+      // تجزیه تاریخ بر اساس اسلش
+      var parts = this.value.split("/");
+      if (parts.length === 3) {
+        var year = parts[0];
+        var month = parts[1].padStart(2, "0");
+        var day = parts[2].padStart(2, "0");
 
-      let jy = -1595 + (33 * Math.floor(days / 12053));
-      days %= 12053;
-      jy += 4 * Math.floor(days / 1461);
-      days %= 1461;
-
-      if (days > 365) {
-        jy += Math.floor((days - 1) / 365);
-        days = (days - 1) % 365;
+        // جایگزینی مقدار اینپوت با فرمت دلخواه سرور
+        this.value = `${year}-${month}-${day}`;
       }
-
-      let jm, jd;
-      if (days < 186) {
-        jm = 1 + Math.floor(days / 31);
-        jd = 1 + (days % 31);
-      } else {
-        jm = 7 + Math.floor((days - 186) / 30);
-        jd = 1 + ((days - 186) % 30);
-      }
-
-      return { jy, jm, jd };
     }
+  });
+});
+const API_URL = "http://localhost:4460/api/letters";
+function gregorianToJalali(gy, gm, gd) {
+  const gDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const gy2 = gm > 2 ? gy + 1 : gy;
 
-    function toJalaliDateString(gregorianDateValue) {
-      const [gy, gm, gd] = gregorianDateValue.split('-').map(Number);
-      const { jy, jm, jd } = gregorianToJalali(gy, gm, gd);
-      const pad = (n) => String(n).padStart(2, '0');
-      return `${jy}-${pad(jm)}-${pad(jd)}`;
-    }
-    const form = document.getElementById('letterForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const formStatus = document.getElementById('formStatus');
-    const registrationNumberInput = document.getElementById('registration_number');
+  let days =
+    355666 +
+    365 * gy +
+    Math.floor((gy2 + 3) / 4) -
+    Math.floor((gy2 + 99) / 100) +
+    Math.floor((gy2 + 399) / 400) +
+    gd +
+    gDaysInMonth.slice(0, gm - 1).reduce((a, b) => a + b, 0);
 
-    const letterDateInput = document.getElementById('letter_date');
-    const senderInput = document.getElementById('sender');
-    const receiverInput = document.getElementById('receiver');
-    const subjectInput = document.getElementById('subject');
-    const attachmentsCountInput = document.getElementById('attachments_count');
-    const fileInput = document.getElementById('file_attachment');
-    const notesInput = document.getElementById('notes');
+  let jy = -1595 + 33 * Math.floor(days / 12053);
+  days %= 12053;
+  jy += 4 * Math.floor(days / 1461);
+  days %= 1461;
 
-    const MAX_FILE_SIZE = 10 * 1024 * 1024; // ۱۰ مگابایت، هم‌سو با محدودیت بک‌اند
+  if (days > 365) {
+    jy += Math.floor((days - 1) / 365);
+    days = (days - 1) % 365;
+  }
 
-    function setFieldError(groupId, hasError) {
-      const group = document.getElementById(groupId);
-      group.classList.toggle('has-error', hasError);
-    }
+  let jm, jd;
+  if (days < 186) {
+    jm = 1 + Math.floor(days / 31);
+    jd = 1 + (days % 31);
+  } else {
+    jm = 7 + Math.floor((days - 186) / 30);
+    jd = 1 + ((days - 186) % 30);
+  }
 
-    function clearAllErrors() {
-      document.querySelectorAll('.form-group.has-error').forEach((el) => {
-        el.classList.remove('has-error');
-      });
-    }
+  return { jy, jm, jd };
+}
 
-    function showStatus(type, message, detailsList) {
-      formStatus.className = `status-banner show ${type}`;
-      let html = `<div>${message}</div>`;
-      if (Array.isArray(detailsList) && detailsList.length) {
-        html += '<ul>' + detailsList.map((d) => `<li>${d}</li>`).join('') + '</ul>';
-      }
-      formStatus.innerHTML = html;
-      formStatus.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+function toJalaliDateString(gregorianDateValue) {
+  const [gy, gm, gd] = gregorianDateValue.split("-").map(Number);
+  const { jy, jm, jd } = gregorianToJalali(gy, gm, gd);
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${jy}-${pad(jm)}-${pad(jd)}`;
+}
+const form = document.getElementById("letterForm");
+const submitBtn = document.getElementById("submitBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const formStatus = document.getElementById("formStatus");
+const registrationNumberInput = document.getElementById("registration_number");
 
-    function hideStatus() {
-      formStatus.className = 'status-banner';
-      formStatus.innerHTML = '';
-    }
-    function validateForm() {
-      clearAllErrors();
-      let isValid = true;
-      let firstInvalidEl = null;
+const letterDateInput = document.getElementById("letter_date");
+const senderInput = document.getElementById("sender");
+const receiverInput = document.getElementById("receiver");
+const subjectInput = document.getElementById("subject");
+const attachmentsCountInput = document.getElementById("attachments_count");
+const fileInput = document.getElementById("file_attachment");
+const notesInput = document.getElementById("notes");
 
-      const letterType = document.querySelector('input[name="letter_type"]:checked');
-      if (!letterType) {
-        setFieldError('group-letter_type', true);
-        isValid = false;
-      }
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // ۱۰ مگابایت، هم‌سو با محدودیت بک‌اند
 
-      if (!letterDateInput.value) {
-        setFieldError('group-letter_date', true);
-        isValid = false;
-        firstInvalidEl = firstInvalidEl || letterDateInput;
-      }
+function setFieldError(groupId, hasError) {
+  const group = document.getElementById(groupId);
+  group.classList.toggle("has-error", hasError);
+}
 
-      if (!senderInput.value.trim()) {
-        setFieldError('group-sender', true);
-        isValid = false;
-        firstInvalidEl = firstInvalidEl || senderInput;
-      }
+function clearAllErrors() {
+  document.querySelectorAll(".form-group.has-error").forEach((el) => {
+    el.classList.remove("has-error");
+  });
+}
 
-      if (!receiverInput.value.trim()) {
-        setFieldError('group-receiver', true);
-        isValid = false;
-        firstInvalidEl = firstInvalidEl || receiverInput;
-      }
+function showStatus(type, message, detailsList) {
+  formStatus.className = `status-banner show ${type}`;
+  let html = `<div>${message}</div>`;
+  if (Array.isArray(detailsList) && detailsList.length) {
+    html += "<ul>" + detailsList.map((d) => `<li>${d}</li>`).join("") + "</ul>";
+  }
+  formStatus.innerHTML = html;
+  formStatus.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
-      if (!subjectInput.value.trim()) {
-        setFieldError('group-subject', true);
-        isValid = false;
-        firstInvalidEl = firstInvalidEl || subjectInput;
-      }
+function hideStatus() {
+  formStatus.className = "status-banner";
+  formStatus.innerHTML = "";
+}
+function validateForm() {
+  clearAllErrors();
+  let isValid = true;
+  let firstInvalidEl = null;
 
-      if (fileInput.files.length && fileInput.files[0].size > MAX_FILE_SIZE) {
-        setFieldError('group-file_attachment', true);
-        isValid = false;
-        firstInvalidEl = firstInvalidEl || fileInput;
-      }
+  const letterType = document.querySelector(
+    'input[name="letter_type"]:checked',
+  );
+  if (!letterType) {
+    setFieldError("group-letter_type", true);
+    isValid = false;
+  }
 
-      if (firstInvalidEl) {
-        firstInvalidEl.focus();
-      }
+  if (!letterDateInput.value) {
+    setFieldError("group-letter_date", true);
+    isValid = false;
+    firstInvalidEl = firstInvalidEl || letterDateInput;
+  }
 
-      return isValid;
-    }
-    async function submitLetter() {
-      const letterType = document.querySelector('input[name="letter_type"]:checked').value;
-      const letterDateJalali = toJalaliDateString(letterDateInput.value);
+  if (!senderInput.value.trim()) {
+    setFieldError("group-sender", true);
+    isValid = false;
+    firstInvalidEl = firstInvalidEl || senderInput;
+  }
 
-      const formData = new FormData();
-      formData.append('letterType', letterType);
-      formData.append('letterDate', letterDateJalali);
-      formData.append('sender', senderInput.value.trim());
-      formData.append('receiver', receiverInput.value.trim());
-      formData.append('subject', subjectInput.value.trim());
-      formData.append('attachmentsCount', attachmentsCountInput.value || '0');
-      formData.append('description', notesInput.value.trim());
+  if (!receiverInput.value.trim()) {
+    setFieldError("group-receiver", true);
+    isValid = false;
+    firstInvalidEl = firstInvalidEl || receiverInput;
+  }
 
-      if (fileInput.files.length) {
-        formData.append('scanFile', fileInput.files[0]);
-      }
+  if (!subjectInput.value.trim()) {
+    setFieldError("group-subject", true);
+    isValid = false;
+    firstInvalidEl = firstInvalidEl || subjectInput;
+  }
 
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        body: formData,
-      });
+  if (fileInput.files.length && fileInput.files[0].size > MAX_FILE_SIZE) {
+    setFieldError("group-file_attachment", true);
+    isValid = false;
+    firstInvalidEl = firstInvalidEl || fileInput;
+  }
 
-      let payload = null;
-      try {
-        payload = await response.json();
-      } catch (e) {
-      }
+  if (firstInvalidEl) {
+    firstInvalidEl.focus();
+  }
 
-      if (!response.ok) {
-        const message = (payload && payload.message) || 'ثبت نامه با خطا مواجه شد.';
-        const details = payload && payload.errors;
-        const error = new Error(message);
-        error.details = details;
-        throw error;
-      }
+  return isValid;
+}
+async function submitLetter() {
+  const letterType = document.querySelector(
+    'input[name="letter_type"]:checked',
+  ).value;
+  const letterDateJalali = letterDateInput.value;
 
-      return payload;
-    }
+  const formData = new FormData();
+  console.log(letterDateJalali);
+  formData.append("letterType", letterType);
+  formData.append("letterDate", letterDateJalali);
+  formData.append("sender", senderInput.value.trim());
+  formData.append("receiver", receiverInput.value.trim());
+  formData.append("subject", subjectInput.value.trim());
+  formData.append("attachmentsCount", attachmentsCountInput.value || "0");
+  formData.append("description", notesInput.value.trim());
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      hideStatus();
+  if (fileInput.files.length) {
+    formData.append("scanFile", fileInput.files[0]);
+  }
 
-      if (!validateForm()) {
-        showStatus('error', 'لطفاً فیلدهای الزامی مشخص‌شده را تکمیل کنید.');
-        return;
-      }
+  const response = await fetch(API_URL, {
+    method: "POST",
+    body: formData,
+  });
 
-      submitBtn.disabled = true;
-      const originalBtnText = submitBtn.textContent;
-      submitBtn.textContent = 'در حال ثبت...';
+  let payload = null;
+  try {
+    payload = await response.json();
+  } catch (e) {}
 
-      try {
-        const result = await submitLetter();
-        const registrationNumber = result?.data?.registrationNumber || '-';
+  if (!response.ok) {
+    const message = (payload && payload.message) || "ثبت نامه با خطا مواجه شد.";
+    const details = payload && payload.errors;
+    const error = new Error(message);
+    error.details = details;
+    throw error;
+  }
 
-        registrationNumberInput.value = registrationNumber;
-        showStatus('success', `نامه با موفقیت ثبت شد. شماره ثبت: ${registrationNumber}`);
+  return payload;
+}
 
-        form.reset();
-        registrationNumberInput.value = registrationNumber;
-      } catch (err) {
-        showStatus('error', err.message, err.details);
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalBtnText;
-      }
-    });
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  hideStatus();
 
-    cancelBtn.addEventListener('click', () => {
-      form.reset();
-      clearAllErrors();
-      hideStatus();
-      registrationNumberInput.value = 'پس از ثبت نامه تولید می‌شود';
-    });
+  if (!validateForm()) {
+    showStatus("error", "لطفاً فیلدهای الزامی مشخص‌شده را تکمیل کنید.");
+    return;
+  }
 
-    fileInput.addEventListener('change', () => {
-      const label = document.getElementById('file_attachment_label');
-      if (fileInput.files.length) {
-        label.textContent = `📎 ${fileInput.files[0].name}`;
-        setFieldError('group-file_attachment', false);
-      } else {
-        label.textContent = '📁 کلیک کنید یا فایل اسکن‌شده را اینجا رها کنید';
-      }
-    });
+  submitBtn.disabled = true;
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.textContent = "در حال ثبت...";
+
+  try {
+    const result = await submitLetter();
+    const registrationNumber = result?.data?.registrationNumber || "-";
+
+    registrationNumberInput.value = registrationNumber;
+    showStatus(
+      "success",
+      `نامه با موفقیت ثبت شد. شماره ثبت: ${registrationNumber}`,
+    );
+
+    form.reset();
+    registrationNumberInput.value = registrationNumber;
+  } catch (err) {
+    showStatus("error", err.message, err.details);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalBtnText;
+  }
+});
+
+cancelBtn.addEventListener("click", () => {
+  form.reset();
+  clearAllErrors();
+  hideStatus();
+  registrationNumberInput.value = "پس از ثبت نامه تولید می‌شود";
+});
+
+fileInput.addEventListener("change", () => {
+  const label = document.getElementById("file_attachment_label");
+  if (fileInput.files.length) {
+    label.textContent = `📎 ${fileInput.files[0].name}`;
+    setFieldError("group-file_attachment", false);
+  } else {
+    label.textContent = "📁 کلیک کنید یا فایل اسکن‌شده را اینجا رها کنید";
+  }
+});

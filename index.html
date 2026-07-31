@@ -1,19 +1,54 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ثبت نامه اداری - سیستم دبیرخانه</title>
   <link rel="icon" href="assets/favicon.png">
   <link rel="stylesheet" href="components/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/jalalidatepicker/dist/jalalidatepicker.min.css">
+
+
 </head>
+
 <body>
 
   <div class="page">
-    <div class="page-header">
-      <h2>ثبت نامه جدید</h2>
-      <p>فرم ورود اطلاعات نامه‌های اداری در سیستم دبیرخانه</p>
-    </div>
+    <nav class="floating-navbar">
+
+      <!-- گزینه ۱: ثبت نامه (آیتم فعال) -->
+      <a href="#" class="nav-item active">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+        <span>ثبت نامه</span>
+      </a>
+
+      <div class="nav-divider"></div>
+
+      <!-- گزینه ۲: جستجوی نامه -->
+      <a href="#" class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <span>جست‌وجوی نامه</span>
+      </a>
+
+      <div class="nav-divider"></div>
+
+      <!-- گزینه ۳: درباره ما -->
+      <a href="#" class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+        <span>درباره ما</span>
+      </a>
+
+    </nav>
 
     <form action="#" method="POST" enctype="multipart/form-data" id="letterForm" novalidate class="letter-form">
 
@@ -28,8 +63,10 @@
           <div class="form-group" id="group-letter_type">
             <label>نوع نامه <span class="required">*</span></label>
             <div class="radio-group">
-              <label class="radio-label"><input type="radio" name="letter_type" value="incoming" checked> وارده (از بیرون)</label>
-              <label class="radio-label"><input type="radio" name="letter_type" value="outgoing"> صادره (به بیرون)</label>
+              <label class="radio-label"><input type="radio" name="letter_type" value="incoming" checked> وارده (از
+                بیرون)</label>
+              <label class="radio-label"><input type="radio" name="letter_type" value="outgoing"> صادره (به
+                بیرون)</label>
               <label class="radio-label"><input type="radio" name="letter_type" value="internal"> داخلی</label>
             </div>
             <span class="error-text">لطفاً نوع نامه را انتخاب کنید.</span>
@@ -42,7 +79,8 @@
 
           <div class="form-group" id="group-letter_date">
             <label for="letter_date">تاریخ نامه <span class="required">*</span></label>
-            <input type="date" id="letter_date" required>
+            <input autocomplete="off" type="text" data-jdp data-jdp-separator="-" id="letter_date"
+              placeholder="مثال : 1404/02/16" required>
             <span class="error-text">تاریخ نامه الزامی است.</span>
           </div>
         </section>
@@ -83,7 +121,8 @@
             <label>آپلود اسکن نامه (PDF / تصویر)</label>
             <div class="file-upload-wrapper">
               <input type="file" id="file_attachment" style="display: none;" accept=".pdf,.jpg,.jpeg,.png">
-              <label for="file_attachment" style="cursor: pointer; margin: 0; color: var(--primary-color);" id="file_attachment_label">
+              <label for="file_attachment" style="cursor: pointer; margin: 0; color: var(--primary-color);"
+                id="file_attachment_label">
                 📁 کلیک کنید یا فایل اسکن‌شده را اینجا رها کنید
               </label>
             </div>
@@ -106,8 +145,8 @@
 
     </form>
   </div>
-
+  <script src="https://unpkg.com/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
   <script src="components/app.js"></script>
-
 </body>
+
 </html>

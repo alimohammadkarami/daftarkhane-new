@@ -1,21 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // ۱. راه‌اندازی دیت‌پیکر
+
   jalaliDatepicker.startWatch();
 
-  // ۲. دریافت اینپوت
   var inputEl = document.getElementById("letter_date");
 
-  // ۳. هر زمان تاریخی انتخاب شد، اسلش‌ها را به خط تیره تبدیل کن و صفرهای ماه/روز را درست کن
   inputEl.addEventListener("change", function () {
     if (this.value) {
-      // تجزیه تاریخ بر اساس اسلش
       var parts = this.value.split("/");
       if (parts.length === 3) {
         var year = parts[0];
         var month = parts[1].padStart(2, "0");
         var day = parts[2].padStart(2, "0");
 
-        // جایگزینی مقدار اینپوت با فرمت دلخواه سرور
         this.value = `${year}-${month}-${day}`;
       }
     }
@@ -77,7 +73,7 @@ const attachmentsCountInput = document.getElementById("attachments_count");
 const fileInput = document.getElementById("file_attachment");
 const notesInput = document.getElementById("notes");
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // ۱۰ مگابایت، هم‌سو با محدودیت بک‌اند
+const MAX_FILE_SIZE = 10 * 1024 * 1024; 
 
 function setFieldError(groupId, hasError) {
   const group = document.getElementById(groupId);

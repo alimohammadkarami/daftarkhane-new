@@ -7,10 +7,6 @@ const LETTER_TYPE_LABELS = {
   outgoing: "صادره",
   internal: "داخلی",
 };
-
-// =====================================================================
-// مرجع عناصر
-// =====================================================================
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
 const searchFieldError = document.getElementById("searchFieldError");
@@ -21,9 +17,6 @@ const regNumberDisplay = document.getElementById("regNumberDisplay");
 const infoList = document.getElementById("infoList");
 const resultActions = document.getElementById("resultActions");
 
-// =====================================================================
-// توابع کمکی نمایش
-// =====================================================================
 function toPersianDigits(value) {
   const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
   return String(value).replace(/[0-9]/g, (d) => persianDigits[Number(d)]);
@@ -60,10 +53,6 @@ function addInfoRow(label, value, muted) {
   row.appendChild(valueEl);
   infoList.appendChild(row);
 }
-
-// =====================================================================
-// ساخت کارت نتیجه از داده نامه
-// =====================================================================
 function renderLetter(letter) {
   typeBadge.textContent =
     LETTER_TYPE_LABELS[letter.letter_type] || letter.letter_type;
@@ -127,11 +116,6 @@ function renderDownloadArea(letter) {
   errorText.id = "downloadErrorText";
   resultActions.appendChild(errorText);
 }
-
-// =====================================================================
-// دانلود فایل پیوست
-// پاسخ ممکن است فایل باینری (موفق) یا JSON خطا (نامه/فایل یافت نشد) باشد
-// =====================================================================
 async function downloadAttachment(letterId, buttonEl) {
   const errorText = document.getElementById("downloadErrorText");
   errorText.classList.remove("show");
@@ -151,7 +135,6 @@ async function downloadAttachment(letterId, buttonEl) {
         const payload = await response.json();
         if (payload && payload.message) message = payload.message;
       } catch (e) {
-        // پاسخ JSON نبود، از پیام پیش‌فرض استفاده می‌شود
       }
       errorText.textContent = message;
       errorText.classList.add("show");
@@ -184,10 +167,6 @@ async function downloadAttachment(letterId, buttonEl) {
     buttonEl.textContent = originalText;
   }
 }
-
-// =====================================================================
-// جستجوی نامه
-// =====================================================================
 async function searchLetter() {
   const stringId = searchInput.value.trim();
 

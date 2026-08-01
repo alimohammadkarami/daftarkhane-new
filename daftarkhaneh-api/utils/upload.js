@@ -15,7 +15,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// فقط PDF و تصاویر مطابق فرم (اسکن نامه) مجاز است
 const allowedMimeTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
 
 function fileFilter(req, file, cb) {
@@ -29,7 +28,7 @@ function fileFilter(req, file, cb) {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 10 * 1024 * 1024 }, // حداکثر ۱۰ مگابایت
+  limits: { fileSize: 10 * 1024 * 1024 }, 
 });
 
 module.exports = upload;

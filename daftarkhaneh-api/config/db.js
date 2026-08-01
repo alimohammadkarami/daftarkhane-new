@@ -11,7 +11,7 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
   charset: 'utf8mb4_persian_ci',
-  dateStrings: true, // تا مقادیر DATE به صورت رشته YYYY-MM-DD برگردند
+  dateStrings: true,
 });
 
 module.exports = { pool };

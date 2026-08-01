@@ -7,13 +7,6 @@ const LETTER_TYPE_CODE = {
   internal: 'د', // داخلی
 };
 
-
-/**
- * دریافت شماره ترتیبی بعدی برای یک سال شمسی و نوع نامه مشخص
- * با استفاده از INSERT ... ON DUPLICATE KEY UPDATE به صورت اتمیک روی همان تراکنش
- * ردیف مربوطه قفل و افزایش داده می‌شود تا از تداخل هم‌زمان جلوگیری شود
- * @param {import('mysql2/promise').PoolConnection} connection
- */
 async function getNextSequenceNumber(connection, persianYear, letterType) {
   await connection.query(
     `INSERT INTO letter_sequences (persian_year, letter_type, last_number)
@@ -38,10 +31,7 @@ function buildRegistrationNumber(seq, letterType, persianYear) {
   return `${paddedSeq}/${typeCode}/${persianYear}`;
 }
 
-/**
- * ثبت یک نامه جدید در دبیرخانه (در یک تراکنش کامل)
- * @param {object} data
- */
+
 async function createLetter(data) {
   const connection = await pool.getConnection();
   try {

@@ -9,9 +9,6 @@ const asyncHandler = require("../utils/asyncHandler");
 const path = require("path");
 const VALID_TYPES = ["incoming", "outgoing", "internal"];
 
-/**
- * اعتبارسنجی فیلدهای اجباری فرم ثبت نامه
- */
 function validateBody(body) {
   const errors = [];
 
@@ -44,10 +41,6 @@ function validateBody(body) {
   return errors;
 }
 
-/**
- * POST /api/letters
- * ثبت یک نامه جدید در دبیرخانه
- */
 exports.createLetter = asyncHandler(async (req, res) => {
   const errors = validateBody(req.body);
   if (errors.length) {
@@ -94,10 +87,7 @@ exports.createLetter = asyncHandler(async (req, res) => {
   });
 });
 
-/**
- * GET /api/letters/:id
- * دریافت یک نامه بر اساس شناسه
- */
+
 exports.getLetterById = asyncHandler(async (req, res) => {
   const letter = await letterModel.findLetterById(req.params.id);
 

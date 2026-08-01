@@ -31,7 +31,7 @@ body{
 
     position: absolute;
 
-    top: 30px;
+    top: 22px;
     left: 50%;
 
     transform: translateX(-50%);
@@ -100,15 +100,6 @@ body{
     left:-100px;
 
 }
-
-
-
-
-
-
-/* Hero */
-
-
 .hero{
 
     text-align:center;
@@ -116,9 +107,6 @@ body{
     margin-bottom:80px;
 
 }
-
-
-
 .badge{
 
     display:inline-flex;
@@ -201,7 +189,6 @@ body{
 
 
 
-/* Glass */
 
 
 .glass{
@@ -228,7 +215,6 @@ body{
 
 
 
-/* About */
 
 
 .about{
@@ -316,7 +302,6 @@ body{
 
 
 
-/* Developer */
 
 
 .developer{
@@ -408,7 +393,6 @@ footer{
 
 
 
-/* Responsive */
 
 
 @media(max-width:850px){

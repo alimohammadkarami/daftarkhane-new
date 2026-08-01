@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>جستجوی نامه - سیستم دبیرخانه</title>
+  <link rel="icon" href="../assets/favicon.png">
+  <link rel="stylesheet" href="components/style.css">
+  <link rel="stylesheet" href="../components/style.css">
+
+</head>
+<body>
+
+  <div class="page">
+    <nav class="floating-navbar">
+
+      <!-- گزینه ۱: ثبت نامه (آیتم فعال) -->
+      <a href="/" class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+        <span>ثبت نامه</span>
+      </a>
+
+      <div class="nav-divider"></div>
+
+      <!-- گزینه ۲: جستجوی نامه -->
+      <a href="/search/" class="nav-item active">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <span>جست‌وجوی نامه</span>
+      </a>
+
+      <div class="nav-divider"></div>
+
+      <!-- گزینه ۳: درباره ما -->
+      <a href="#" class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+        <span>درباره ما</span>
+      </a>
+
+    </nav>
+    <div class="page-header">
+      <h2>جستجوی نامه</h2>
+      <p>شماره نامه را وارد کنید تا مشخصات کامل آن نمایش داده شود</p>
+    </div>
+
+    <div class="search-card">
+      <div class="search-row">
+        <input type="text" id="searchInput" placeholder="شماره نامه را وارد کنید" autocomplete="off">
+        <button type="button" id="searchBtn" class="btn btn-primary">جستجو</button>
+      </div>
+      <span class="field-error-text" id="searchFieldError">لطفاً شماره نامه را وارد کنید.</span>
+    </div>
+
+    <div id="statusBanner" class="status-banner"></div>
+
+    <div id="resultCard" class="result-card" hidden>
+      <div class="result-top">
+        <span class="type-badge" id="typeBadge"></span>
+        <span class="result-regnum" id="regNumberDisplay"></span>
+      </div>
+
+      <div class="info-list" id="infoList"></div>
+
+      <div class="result-actions" id="resultActions"></div>
+    </div>
+  </div>
+
+  <script src="components/app.js"></script>
+
+</body>
+</html>

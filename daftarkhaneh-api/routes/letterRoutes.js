@@ -10,4 +10,6 @@ router.post('/', upload.single('scanFile'), letterController.createLetter);
 // دریافت یک نامه با شناسه
 router.get('/:id', letterController.getLetterById);
 
+router.post('/get', letterController.lettersByStringID);
+router.get('/:id/download', letterController.downloadLetters);
 module.exports = router;

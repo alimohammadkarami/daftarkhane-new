@@ -88,9 +88,13 @@ async function findLetterById(id) {
   const [rows] = await pool.query('SELECT * FROM letters WHERE id = ?', [id]);
   return rows[0] || null;
 }
-
+async function findLetterByStringId(stringId) {
+  const [rows] = await pool.query('SELECT * FROM letters WHERE registration_number = ?', [stringId]);
+  return rows[0] || null;
+}
 module.exports = {
   createLetter,
   findLetterById,
+  findLetterByStringId,
   LETTER_TYPE_CODE,
 };

@@ -31,7 +31,6 @@ body {
   align-items: center;
   
 }
-
 /* ==========================================
    Capsule Navbar (Flex Child Version)
    ========================================== */
@@ -113,6 +112,7 @@ body {
   height: 16px;
   background-color: #e2e8f0;
 }
+
 .page {
   width: 100vw;
   height: 100vh;

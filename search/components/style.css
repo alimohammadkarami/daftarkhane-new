@@ -13,14 +13,17 @@
       margin: 0;
       padding: 0;
       font-family: 'abi', 'Segoe UI', Geneva, Verdana, sans-serif;
-    }
-
+    }   
+    
     html, body {
       height: 100%;
+      max-width: 100%;
+
     }
 
     body {
       background-color: var(--bg-color);
+      max-width: 100%;
       color: var(--text-color);
     }
 
@@ -28,7 +31,7 @@
       margin: 0 auto;
       padding: 40px 20px 60px;
       min-height: 100%;
-      
+      max-width: 100%;
     }
 
     .page-header {
